@@ -12,13 +12,11 @@ import com.headissue.sharecount.provider.StumbleUpon;
 import com.headissue.sharecount.provider.Twitter;
 import org.json.JSONException;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -50,15 +48,20 @@ public class ShareCountProxy extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     String json = "";
     String forUrl = req.getParameter("url");
-    if (forUrl != null) {
-      json = getCounts(forUrl);
+    if (forUrl == null) {
+      Writer out = resp.getWriter();
+      out.write("Hello!\nshariff-backend-java is running.\n" +
+        "Request the sharecounts like: /?url=http://example.com\n\n" +
+        "~~~\nhttps://github.com/headissue/shariff-backend-java");
+      return;
     }
+
+    json = getCounts(forUrl);
     PrintWriter out = resp.getWriter();
     addCacheHeaders(resp);
     resp.addHeader("Content-Type", "application/json");
     resp.addHeader("Access-Control-Allow-Origin", "*");
     resp.addHeader("Access-Control-Expose-Headers", "Content-Type");
-
     out.print(json);
   }
 
