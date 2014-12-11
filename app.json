@@ -1,0 +1,6 @@
+{
+  "name": "shariff-backend-java",
+  "description": "A java backend for Shariff",
+  "repository": "https://github.com/headissue/shariff-backend-java",
+  "keywords": ["java", "shariff"]
+}
