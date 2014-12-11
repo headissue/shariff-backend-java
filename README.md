@@ -15,8 +15,10 @@ To use your own server, simply build the app (`mvn package`) and deploy the resu
 Should result in 'Running war on http://localhost:8080'
 
 Open [http://localhost:8080/?url=www.example.com](http://localhost:8080/?url=www.example.com) to receive
-
-    {"reddit":25,"facebook":474517,"twitter":10237,"linkedin":0,"delicious":0,"stumbleupon":5882,"pinterest":1,"google-plus":28387}
+    
+```json
+{"reddit":25,"facebook":474517,"twitter":10237,"linkedin":0,"delicious":0,"stumbleupon":5882,"pinterest":1,"google-plus":28387}
+```
 
 ## Roadmap
 
