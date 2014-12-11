@@ -2,7 +2,13 @@
 
 A java backend for [https://github.com/heiseonline/shariff](https://github.com/heiseonline/shariff)
 
-## Test
+## Deploy
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+To use your own server, simply build the app (`mvn package`) and deploy the resulting war to your favourite application server.
+
+## Test locally
 
     mvn tomcat7:run
 
@@ -21,4 +27,3 @@ Open [http://localhost:8080/?url=www.example.com](http://localhost:8080/?url=www
 
 
 *suggestions and feedback welcome*
-    
