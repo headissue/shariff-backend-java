@@ -7,7 +7,7 @@ A java backend for [https://github.com/heiseonline/shariff](https://github.com/h
     mvn tomcat7:run
 
 Should result in 'Running war on http://localhost:8080'
-Open 'http://localhost:8080/?url=www.example.com' to receive
+Open [http://localhost:8080/?url=www.example.com](http://localhost:8080/?url=www.example.com) to receive
 
     {"reddit":25,"facebook":474517,"twitter":0,"linkedin":0,"delicious":0,"stumbleupon":5882,"pinterest":0,"google-plus":0}
 
