@@ -22,19 +22,18 @@ Open [http://localhost:8080/?url=www.example.com](http://localhost:8080/?url=www
 
 ## Configuration
 
-### Configure the user agent the proxy provides
-see [proxy.properties](./src/main/resources/com/headissue/sharecount/proxy/proxy.properties)
+see [Config Class](./src/main/java/com/headissue/sharecount/proxy/Config.java)
 
-* *proxy.version*: defaults to the version in the pom.xml
-* *maintainer.homepage*: here you should provide a way to contact you
+Configure the proxy via environment variables:
+ 
+```bash
+# here you should provide a way to contact you. this information will be sent with the 
+# user-agent header
+SHARECOUNT_PROXY_MAINTAINER=my.domain.com
+# a semicolon delimited list of domains, regular expressions are possible
+SHARECOUNT_PROXY_DOMAINLIST=.*
+```
 
-### Configure for which domains the sharecount can be requested
-see [proxy.properties](./src/main/resources/com/headissue/sharecount/proxy/proxy.properties)
-
-* *domainwhitelist*: a semicolon delimited list of domains, regular expressions are possible e.g.:
-  * my.domain.com, .*.example.com
-  * *default*: .* (all allowed)
-  
 ## Roadmap
 
 * restrict length of parameter
