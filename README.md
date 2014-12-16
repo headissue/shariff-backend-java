@@ -20,10 +20,25 @@ Open [http://localhost:8080/?url=www.example.com](http://localhost:8080/?url=www
 {"reddit":25,"facebook":474517,"twitter":10237,"linkedin":0,"delicious":0,"stumbleupon":5882,"pinterest":1,"google-plus":28387}
 ```
 
+## Configuration
+
+### Configure the user agent the proxy provides
+see [proxy.properties](./src/main/resources/com/headissue/sharecount/proxy/proxy.properties)
+
+* *proxy.version*: defaults to the version in the pom.xml
+* *maintainer.homepage*: here you should provide a way to contact you
+
+### Configure for which domains the sharecount can be requested
+see [proxy.properties](./src/main/resources/com/headissue/sharecount/proxy/proxy.properties)
+
+* *domainwhitelist*: a semicolon delimited list of domains, regular expressions are possible e.g.:
+  * my.domain.com, .*.example.com
+  * *default*: .* (all allowed)
+  
 ## Roadmap
 
-* whitelist domains to be requested
 * restrict length of parameter
+* configuration through environment variables
 * parallel requests to all provider
 * cache the requested counts
 
