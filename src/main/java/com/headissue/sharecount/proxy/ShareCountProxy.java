@@ -25,16 +25,16 @@ import java.util.Date;
 public class ShareCountProxy extends HttpServlet {
 
   private ShareCountProvider[] countProvider =
-      new ShareCountProvider[]{
-          new Reddit(),
-          new Facebook(),
-          new Twitter(),
-          new LinkedIn(),
-          new Delicious(),
-          new StumbleUpon(),
-          new Pinterest(),
-          new GooglePlus()
-      };
+    new ShareCountProvider[]{
+      new Reddit(),
+      new Facebook(),
+      new Twitter(),
+      new LinkedIn(),
+      new Delicious(),
+      new StumbleUpon(),
+      new Pinterest(),
+      new GooglePlus()
+    };
 
   @Override
   protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,7 +50,7 @@ public class ShareCountProxy extends HttpServlet {
     // other accces than root should yield 404
     if (!"/".equals(req.getRequestURI())) {
       resp.sendError(404, "" +
-        "Request the sharecounts like: /?url=http://example.com\n\n");
+        "Request the sharecounts like: /?url=http://example.com");
       return;
     }
 
