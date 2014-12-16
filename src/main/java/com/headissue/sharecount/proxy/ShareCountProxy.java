@@ -46,23 +46,32 @@ public class ShareCountProxy extends HttpServlet {
   }
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String json = "";
+
+    // other accces than root should yield 404
+    if (!"/".equals(req.getRequestURI())) {
+      resp.sendError(404, "" +
+        "Request the sharecounts like: /?url=http://example.com\n\n");
+      return;
+    }
+
     String forUrl = req.getParameter("url");
     if (forUrl == null) {
+      // access to root will displays a welcome page
       Writer out = resp.getWriter();
       out.write("Hello!\nshariff-backend-java is running.\n" +
         "Request the sharecounts like: /?url=http://example.com\n\n" +
         "~~~\nhttps://github.com/headissue/shariff-backend-java");
       return;
-    }
 
-    json = getCounts(forUrl);
-    PrintWriter out = resp.getWriter();
-    addCacheHeaders(resp);
-    resp.addHeader("Content-Type", "application/json");
-    resp.addHeader("Access-Control-Allow-Origin", "*");
-    resp.addHeader("Access-Control-Expose-Headers", "Content-Type");
-    out.print(json);
+    } else {
+      String json = getCounts(forUrl);
+      PrintWriter out = resp.getWriter();
+      addCacheHeaders(resp);
+      resp.addHeader("Content-Type", "application/json");
+      resp.addHeader("Access-Control-Allow-Origin", "*");
+      resp.addHeader("Access-Control-Expose-Headers", "Content-Type");
+      out.print(json);
+    }
   }
 
   private void addCacheHeaders(HttpServletResponse resp) {
