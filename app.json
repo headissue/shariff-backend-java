@@ -2,5 +2,15 @@
   "name": "shariff-backend-java",
   "description": "A java backend for Shariff",
   "repository": "https://github.com/headissue/shariff-backend-java",
-  "keywords": ["java", "shariff"]
+  "keywords": ["java", "shariff"],
+  "env": {
+    "SHARECOUNT_PROXY_MAINTAINER": {
+      "description": "Used in the User-Agent when querying services; use your website or email address where a provider can contact you",
+      "value": "heroku-button-deploy of https://github.com/headissue/shariff-backend-java"
+    },
+    "SHARECOUNT_PROXY_DOMAINLIST": {
+      "description": "List of Domains seperated with semicolons that are allowed to get asked about (regex possible)",
+      "value": ".*"
+    }
+  }
 }
