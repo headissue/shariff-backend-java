@@ -11,22 +11,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class ProviderRequest {
 
-  // to singleton
-  final Properties properties = new Properties();
   String queryUrl;
 
   public ProviderRequest(String queryUrl) {
     this.queryUrl = queryUrl;
-    try {
-      // TODO there is no need to load every time, is there?
-      properties.load(ProviderRequest.class.getResourceAsStream("proxy.properties"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   public String execute() throws IOException {
@@ -66,7 +57,7 @@ public class ProviderRequest {
 
   protected String getUserAgent() {
     return "sharecountbot/" +
-        properties.getProperty("proxy.version") + " (+" +
-        properties.getProperty("maintainer.homepage") + ")";
+      Config.getProperty("proxy.version") + " (+" +
+      Config.getProperty("maintainer.homepage") + ")";
   }
 }

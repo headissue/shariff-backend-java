@@ -21,6 +21,8 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShareCountProxy extends HttpServlet {
 
@@ -64,6 +66,11 @@ public class ShareCountProxy extends HttpServlet {
       return;
 
     } else {
+      try {
+        validateUrl(forUrl);
+      } catch (ValidationException e) {
+        resp.sendError(400, e.getMessage());
+      }
       String json = getCounts(forUrl);
       PrintWriter out = resp.getWriter();
       addCacheHeaders(resp);
@@ -72,6 +79,31 @@ public class ShareCountProxy extends HttpServlet {
       resp.addHeader("Access-Control-Expose-Headers", "Content-Type");
       out.print(json);
     }
+  }
+
+  /**
+   * compares the url with a list of patterns from the proxy.properties file
+   * throws an exception if the url is not whitelisted
+   * @param forUrl
+   * @throws ValidationException
+   */
+  protected void validateUrl(String forUrl) throws ValidationException {
+    String domainWhiteListValue = Config.getProperty("domainwhitelist");
+    String[] domains = new String[0];
+    if (domainWhiteListValue != null) {
+      domains = domainWhiteListValue.split(";");
+    }
+    for (int i = 0; i < domains.length; i++) {
+      String domain = domains[i];
+      Pattern p = Pattern.compile(domain);
+      Matcher m = p.matcher(forUrl);
+      if (m.matches()) {
+        // this url is allowed to be requested sharecounts for
+        return;
+      }
+    }
+    // nothing matches
+    throw new ValidationException("Disallowed query.");
   }
 
   private void addCacheHeaders(HttpServletResponse resp) {
@@ -128,5 +160,13 @@ public class ShareCountProxy extends HttpServlet {
     }
     sb.append("}");
     return sb.toString();
+  }
+
+
+  protected class ValidationException extends Exception {
+
+    public ValidationException(String s) {
+      super(s);
+    }
   }
 }
