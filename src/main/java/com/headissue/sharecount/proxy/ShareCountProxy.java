@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 
 public class ShareCountProxy extends HttpServlet {
 
+  private Config config;
+
   private ShareCountProvider[] countProvider =
     new ShareCountProvider[]{
       new Reddit(),
@@ -37,6 +39,14 @@ public class ShareCountProxy extends HttpServlet {
       new Pinterest(),
       new GooglePlus()
     };
+
+  public ShareCountProxy() {
+    config = ConfigBuilder.buildFromEnv();
+  }
+
+  public void setConfig(Config config) {
+    this.config = config;
+  }
 
   @Override
   protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,6 +80,7 @@ public class ShareCountProxy extends HttpServlet {
         validateUrl(forUrl);
       } catch (ValidationException e) {
         resp.sendError(400, e.getMessage());
+        return;
       }
       String json = getCounts(forUrl);
       PrintWriter out = resp.getWriter();
@@ -82,13 +93,13 @@ public class ShareCountProxy extends HttpServlet {
   }
 
   /**
-   * compares the url with a list of patterns from the proxy.properties file
+   * compares the url with a list of patterns from the config
    * throws an exception if the url is not whitelisted
    * @param forUrl
    * @throws ValidationException
    */
   protected void validateUrl(String forUrl) throws ValidationException {
-    String domainWhiteListValue = Config.getProperty("domainwhitelist");
+    String domainWhiteListValue = config.getDomainList();
     String[] domains = new String[0];
     if (domainWhiteListValue != null) {
       domains = domainWhiteListValue.split(";");

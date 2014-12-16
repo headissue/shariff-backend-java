@@ -56,8 +56,6 @@ public class ProviderRequest {
   }
 
   protected String getUserAgent() {
-    return "sharecountbot/" +
-      Config.getProperty("proxy.version") + " (+" +
-      Config.getProperty("maintainer.homepage") + ")";
+    return "sharecountbot (" + Config.getInstance().getMaintainer() + ")";
   }
 }

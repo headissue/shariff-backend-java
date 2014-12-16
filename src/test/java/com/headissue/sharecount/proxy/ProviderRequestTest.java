@@ -28,6 +28,6 @@ public class ProviderRequestTest {
   @Test
   public void testUserAgent() {
     ProviderRequest r = new ProviderRequest("");
-    assertEquals("sharecountbot/1.0 (+https://github.com/headissue/shariff-backend-java)",r.getUserAgent());
+    assertEquals("sharecountbot (https://github.com/headissue/shariff-backend-java)",r.getUserAgent());
   }
 }

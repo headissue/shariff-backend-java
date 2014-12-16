@@ -1,15 +1,22 @@
 package com.headissue.sharecount.proxy;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
 
 public class ShareCountProxyTest {
 
+  ShareCountProxy p = new ShareCountProxy();
+
+  @Before
+  public void setup() {
+    p.setConfig(ConfigBuilder.buildTestConfig());
+  }
+
   @Test
   public void testValidFullQualified() {
-    String allowed = "http://www.test.com";
-    ShareCountProxy p = new ShareCountProxy();
+    String allowed = "http://www.example.com";
     try {
       p.validateUrl(allowed);
     } catch (ShareCountProxy.ValidationException e) {
@@ -19,8 +26,7 @@ public class ShareCountProxyTest {
 
   @Test
   public void testValidWithoutProtocol() {
-    String allowed = "www.sub.test.de";
-    ShareCountProxy p = new ShareCountProxy();
+    String allowed = "www.sub.example.org";
     try {
       p.validateUrl(allowed);
     } catch (ShareCountProxy.ValidationException e) {
@@ -29,9 +35,8 @@ public class ShareCountProxyTest {
   }
 
   @Test
-  public void testInValidWithoutProtocol() {
-    String disallowed = "www.test.de";
-    ShareCountProxy p = new ShareCountProxy();
+  public void testInValid() {
+    String disallowed = "https://";
     try {
       p.validateUrl(disallowed);
       fail();
@@ -39,7 +44,4 @@ public class ShareCountProxyTest {
 
     }
   }
-
-
-
 }
