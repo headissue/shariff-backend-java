@@ -28,8 +28,16 @@ public class Config {
 
   public Config(Map map) {
     assert map != null;
-    domainList = (String) map.getOrDefault(DOMAINLIST, ".*");
-    maintainer = (String) map.getOrDefault(MAINTAINER, "https://github.com/headissue/shariff-backend-java");
+
+    domainList = ".*";
+    maintainer = "https://github.com/headissue/shariff-backend-java";
+
+    if (map.get(DOMAINLIST) != null) {
+      domainList = (String) map.get(DOMAINLIST);
+    }
+    if (map.get(MAINTAINER) != null) {
+      maintainer = (String) map.get(MAINTAINER);
+    }
   }
 
 }
