@@ -16,6 +16,10 @@ public class StumbleUpon implements ShareCountProvider {
   @Override
   public int parseCount(String json) {
     JSONObject jsonObject = new JSONObject(json).getJSONObject("result");
-    return jsonObject.getInt("views");
+    if (jsonObject.getBoolean("in_index") == true) {
+      return jsonObject.getInt("views");
+    } else {
+      return 0;
+    }
   }
 }

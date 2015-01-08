@@ -78,7 +78,7 @@ public class GooglePlus implements ShareCountProvider, NeedsPostRequest {
 
   @Override
   public String getName() {
-    return "google-plus";
+    return "googleplus";
   }
 
   @Override
