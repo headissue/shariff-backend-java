@@ -124,7 +124,7 @@ public class ShareCountProxy extends HttpServlet {
     resp.addHeader("Expires", dateFormat.format(new Date(new Date().getTime() + fortySevenSeconds)));
   }
 
-  private String getCounts(String forUrl) {
+  protected String getCounts(String forUrl) {
     if (!forUrl.startsWith("http") || !forUrl.contains("://")) {
       forUrl = "http://" + forUrl;
     }
