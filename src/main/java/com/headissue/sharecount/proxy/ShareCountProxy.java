@@ -59,13 +59,6 @@ public class ShareCountProxy extends HttpServlet {
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    // other accces than root should yield 404
-    if (!"/".equals(req.getRequestURI())) {
-      resp.sendError(404, "" +
-        "Request the sharecounts like: /?url=http://example.com");
-      return;
-    }
-
     String forUrl = req.getParameter("url");
     if (forUrl == null) {
       // access to root will displays a welcome page
