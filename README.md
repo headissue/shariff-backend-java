@@ -37,7 +37,6 @@ SHARECOUNT_PROXY_DOMAINLIST=.*
 ## Roadmap
 
 * restrict length of parameter
-* configuration through environment variables
 * parallel requests to all provider
 * cache the requested counts
 
