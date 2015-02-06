@@ -1,5 +1,7 @@
 package com.headissue.sharecount.proxy;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -9,12 +11,31 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.cache2k.Cache;
+import org.cache2k.CacheBuilder;
+import org.cache2k.CacheSource;
 
 import java.io.IOException;
 
 public class ProviderRequest {
 
   String queryUrl;
+
+  private static  CacheSource<String,String> shareCountSource =
+    new CacheSource<String, String>() {
+      @Override
+      public String get(String o) throws Throwable {
+        return new ProviderRequest(o).execute();
+      }
+    };
+
+  public static Cache<String,String> cache = CacheBuilder
+    .newCache(String.class, String.class)
+    .source(shareCountSource)
+    .name(ProviderRequest.class)
+    .expiryDuration(Config.getInstance().getCacheExpiryMilliSeconds(), TimeUnit.MILLISECONDS)
+    .maxSize(Config.getInstance().getCacheSize())
+    .build();
 
   public ProviderRequest(String queryUrl) {
     this.queryUrl = queryUrl;
