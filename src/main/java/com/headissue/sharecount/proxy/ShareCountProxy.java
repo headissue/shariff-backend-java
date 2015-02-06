@@ -143,8 +143,8 @@ public class ShareCountProxy extends HttpServlet {
         }
       } else {
         try {
-          json = new ProviderRequest(queryUrl).execute();
-        } catch (IOException e) {
+          json = ProviderRequest.cache.get(queryUrl);
+        } catch (Exception e) {
           e.printStackTrace();
         }
       }
