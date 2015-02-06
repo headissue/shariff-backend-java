@@ -30,6 +30,7 @@ Configure the proxy via environment variables:
 # here you should provide a way to contact you. this information will be sent with the 
 # user-agent header
 SHARECOUNT_PROXY_MAINTAINER=my.domain.com
+# restrict for which domains one can request the sharecounts for
 # a semicolon delimited list of domains, regular expressions are possible
 SHARECOUNT_PROXY_DOMAINLIST=.*
 # sharecount uses cache2k, these are the things you can configure
