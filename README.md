@@ -32,13 +32,15 @@ Configure the proxy via environment variables:
 SHARECOUNT_PROXY_MAINTAINER=my.domain.com
 # a semicolon delimited list of domains, regular expressions are possible
 SHARECOUNT_PROXY_DOMAINLIST=.*
+# sharecount uses cache2k, these are the things you can configure
+SHARECOUNT_CACHE_SIZE=1000
+SHARECOUNT_CACHE_EXPIRY_MS=300000
 ```
 
 ## Roadmap
 
 * restrict length of parameter
 * parallel requests to all provider
-* cache the requested counts
 
 
 *suggestions and feedback welcome*

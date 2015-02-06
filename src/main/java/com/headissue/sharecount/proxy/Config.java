@@ -51,7 +51,7 @@ public class Config {
       maintainer = (String) map.get(MAINTAINER);
     }
     if (map.get(CACHEEXPIRY) != null) {
-      cacheExpiryMilliSeconds = (Integer) map.get(MAINTAINER);
+      cacheExpiryMilliSeconds = (Integer) map.get(CACHEEXPIRY);
     }
     if (map.get(CACHESIZE) != null) {
       cacheSize = (Integer) map.get(CACHESIZE);
