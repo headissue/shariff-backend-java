@@ -4,20 +4,17 @@ import com.headissue.sharecount.provider.Delicious;
 import com.headissue.sharecount.provider.Facebook;
 import com.headissue.sharecount.provider.GooglePlus;
 import com.headissue.sharecount.provider.LinkedIn;
-import com.headissue.sharecount.provider.NeedsPostRequest;
 import com.headissue.sharecount.provider.Pinterest;
 import com.headissue.sharecount.provider.Reddit;
 import com.headissue.sharecount.provider.ShareCountProvider;
 import com.headissue.sharecount.provider.StumbleUpon;
 import com.headissue.sharecount.provider.Twitter;
-import org.json.JSONException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -121,42 +118,21 @@ public class ShareCountProxy extends HttpServlet {
     if (!forUrl.startsWith("http") || !forUrl.contains("://")) {
       forUrl = "http://" + forUrl;
     }
+    try {
+      forUrl = URLEncoder.encode(forUrl, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    // signals the cache that we need an item soon
+    for (ShareCountProvider p : countProvider) {
+      p.prefetch(forUrl);
+    }
     StringBuilder sb = new StringBuilder();
     sb.append("{");
     for (int i = 0; i < countProvider.length; i++) {
       ShareCountProvider provider = countProvider[i];
-      String queryUrl = null;
-      try {
-        queryUrl = provider.getQueryUrl(URLEncoder.encode(forUrl, "UTF-8"));
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
       String name = provider.getName();
-      String json = null;
-
-      // TODO do not use an interface for this distinction
-      if (provider instanceof NeedsPostRequest) {
-        try {
-          json = ((NeedsPostRequest) provider).getJsonResponse(forUrl);
-        } catch (MalformedURLException e) {
-          e.printStackTrace();
-        }
-      } else {
-        try {
-          json = ProviderRequest.cache.get(queryUrl);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-
-      int count = 0;
-      if (json != null) {
-        try {
-          count = provider.parseCount(json);
-        } catch (JSONException e) {
-          e.printStackTrace();
-        }
-      }
+      int count = provider.getCount(forUrl);
       sb.append("\"").append(name).append("\"").append(":").append(count);
       if ((i + 1) < countProvider.length) {
         sb.append(",");

@@ -5,18 +5,16 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Pinterest implements ShareCountProvider {
-  @Override
-  public String getQueryUrl(String forUrl) {
-    return "https://widgets.pinterest.com/v1/urls/count.json?source=6&url=" + forUrl;
+public class Pinterest extends ShareCountProvider {
+
+
+  private static final String queryUrl = "https://widgets.pinterest.com/v1/urls/count.json?source=6&url=";
+  private static final String name = "pinterest";
+
+  public Pinterest() {
+    super(queryUrl, name);
   }
 
-  @Override
-  public String getName() {
-    return "pinterest";
-  }
-
-  @Override
   public int parseCount(String json) {
     Pattern p = Pattern.compile("\\{.*\\}");
     Matcher m = p.matcher(json);
