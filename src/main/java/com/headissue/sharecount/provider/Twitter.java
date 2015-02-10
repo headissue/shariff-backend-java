@@ -2,18 +2,15 @@ package com.headissue.sharecount.provider;
 
 import org.json.JSONObject;
 
-public class Twitter implements ShareCountProvider {
-  @Override
-  public String getQueryUrl(String forUrl) {
-    return "https://cdn.api.twitter.com/1/urls/count.json?url=" + forUrl;
+public class Twitter extends ShareCountProvider {
+
+  private static final String queryUrl = "https://cdn.api.twitter.com/1/urls/count.json?url=";
+  private static final String name = "twitter";
+
+  public Twitter() {
+    super(queryUrl, name);
   }
 
-  @Override
-  public String getName() {
-    return "twitter";
-  }
-
-  @Override
   public int parseCount(String json) {
     return new JSONObject(json).getInt("count");
   }

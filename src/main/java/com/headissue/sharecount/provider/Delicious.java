@@ -3,22 +3,16 @@ package com.headissue.sharecount.provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Delicious implements ShareCountProvider {
+public class Delicious extends ShareCountProvider {
 
+  private static final String queryUrl = "https://api.del.icio.us/v2/json/urlinfo/data?url=";
+  private static final String name = "delicious";
 
-  @Override
-  public String getQueryUrl(String forUrl) {
-    return "https://api.del.icio.us/v2/json/urlinfo/data?url=" + forUrl;
+  public Delicious() {
+    super(queryUrl, name);
   }
 
-  @Override
-  public String getName() {
-    return "delicious";
-  }
-
-  @Override
   public int parseCount(String json) {
-
     JSONArray jsonArray = new JSONArray(json);
     if (jsonArray.length() > 0) {
       JSONObject jsonObject = (JSONObject) jsonArray.get(0);

@@ -1,6 +1,7 @@
 package com.headissue.sharecount.provider;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -12,12 +13,33 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class GooglePlus implements ShareCountProvider, NeedsPostRequest {
-  @Override
-  public String getJsonResponse(String forUrl) throws MalformedURLException {
-    String body = "[{\"method\":\"pos.plusones.get\",\"id\":\"p\",\"params\":{\"nolog\":true,\"id\":\"" + forUrl + "\",\"source\":\"widget\",\"userId\":\"@viewer\",\"groupId\":\"@self\"},\"jsonrpc\":\"2.0\",\"key\":\"p\",\"apiVersion\":\"v1\"}]";
+public class GooglePlus extends ShareCountProvider {
 
-    URL url = new URL(getQueryUrl(forUrl));
+  private static final String queryUrl ="https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ";
+  private static final String name = "googleplus";
+
+  public GooglePlus() {
+    super(queryUrl, name);
+  }
+
+  @Override
+  protected String getJsonResponse(String forUrl) throws MalformedURLException {
+    String body = "[{\n" +
+      "    \"method\":\"pos.plusones.get\",\n" +
+      "    \"id\":\"p\",\n" +
+      "    \"params\":{\n" +
+      "        \"nolog\":true,\n" +
+      "        \"id\":\"http://stylehatch.co/\",\n" +
+      "        \"source\":\"widget\",\n" +
+      "        \"userId\":\"@viewer\",\n" +
+      "        \"groupId\":\"@self\"\n" +
+      "        },\n" +
+      "    \"jsonrpc\":\"2.0\",\n" +
+      "    \"key\":\"p\",\n" +
+      "    \"apiVersion\":\"v1\"\n" +
+      "}]s";
+
+    URL url = new URL(queryUrl);
     HttpURLConnection connection = null;
     try {
       connection = (HttpURLConnection) url.openConnection();
@@ -72,22 +94,22 @@ public class GooglePlus implements ShareCountProvider, NeedsPostRequest {
   }
 
   @Override
-  public String getQueryUrl(String forUrl) {
-    return "https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ";
+  protected Integer getCountInternal(String forUrl) throws MalformedURLException {
+    return parseCount(getJsonResponse(forUrl));
   }
 
   @Override
-  public String getName() {
-    return "googleplus";
-  }
-
-  @Override
-  public int parseCount(String json) {
-    JSONArray a = new JSONArray(json);
-    if (a.length() > 0) {
-      return ((JSONObject) a.get(0)).getJSONObject("result").getJSONObject("metadata").getJSONObject("globalCounts")
+  protected int parseCount(String json) {
+    try {
+      JSONArray a = new JSONArray(json);
+      if (a.length() > 0) {
+        return ((JSONObject) a.get(0)).getJSONObject("result").getJSONObject("metadata").getJSONObject("globalCounts")
           .getInt
-              ("count");
+            ("count");
+      }
+    } catch (JSONException e) {
+      System.err.print(json);
+      e.printStackTrace();
     }
     return 0;
   }
