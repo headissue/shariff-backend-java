@@ -41,7 +41,6 @@ SHARECOUNT_CACHE_EXPIRY_MS=300000
 ## Roadmap
 
 * restrict length of parameter
-* parallel requests to all provider
 
 
 *suggestions and feedback welcome*
