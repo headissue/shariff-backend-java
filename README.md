@@ -1,3 +1,6 @@
+# OBSOLETE
+**OBSOLETE** this repo has not been maintained in a while. Please try https://github.com/shred/shariff-backend-java as an alternative
+
 # shariff-backend-java [![Build Status](https://travis-ci.org/headissue/shariff-backend-java.svg?branch=master)](https://travis-ci.org/headissue/shariff-backend-java)
 
 A java backend for [https://github.com/heiseonline/shariff](https://github.com/heiseonline/shariff)
